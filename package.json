@@ -1,0 +1,27 @@
+{
+  "name": "kitsu-plex-scrobbler",
+  "version": "0.0.1",
+  "description": "Update your Kitsu library from Plex",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthewdias/kitsu-plex-scrobbler.git"
+  },
+  "author": "matthewdias",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matthewdias/kitsu-plex-scrobbler/issues"
+  },
+  "homepage": "https://github.com/matthewdias/kitsu-plex-scrobbler#readme",
+  "dependencies": {
+    "client-oauth2": "^4.2.0",
+    "kitsu": "^5.1.0",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "tail": "^1.2.3",
+    "untildify": "^3.0.2"
+  }
+}
