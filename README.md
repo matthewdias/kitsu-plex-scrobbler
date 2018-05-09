@@ -1,3 +1,10 @@
+### Features/Constraints
+
+- Watches Plex log file for activity and submits to Kitsu
+- Supports thetvdb and [hama](https://github.com/ZeroQI/Hama.bundle) agents
+- Must run on same machine as Plex Media Server
+- Requires [Node.js](http://nodejs.org/)
+
 ### Running
 
 1. run `npm install`
