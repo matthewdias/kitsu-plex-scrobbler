@@ -14,6 +14,7 @@
   - `KITSU_SECRET`: 54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151
   - `KITSU_USERNAME`: your Kitsu username
   - `KITSU_PASSWORD`: your Kitsu password
+  - `PLEX_HOST`: Plex Media Server host (eg. `http://localhost:32400`)
   - `PLEX_TOKEN`: your Plex token [(instructions)](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)
   - `PLEX_LOG`: location of your Plex Media Server log file [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/)
     - plex defaults:
@@ -32,6 +33,7 @@ docker run --name kitsu-plex-scrobbler \
   -e KITSU_SECRET=54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151 \
   -e KITSU_USERNAME=<username> \
   -e KITSU_PASSWORD=<password> \
+  -e PLEX_HOST=http://localhost:32400
   -e PLEX_TOKEN=<token> \
   -e PLEX_LOG="/logs/Plex Media Server.log" \
   -e PLEX_LIBRARIES=Anime \
