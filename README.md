@@ -23,3 +23,18 @@
       - FreeBSD: `"/usr/local/plexdata/Plex Media Server/Logs/Plex Media Server.log"`
   - `PLEX_LIBRARIES`: comma-delimited list of library names to watch (e.g. `"Anime, Anime2"`)
 2. run `npm start`
+
+### Running with Docker
+
+```
+docker run --name kitsu-plex-scrobbler \
+  -e KITSU_CLIENT=dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd \
+  -e KITSU_SECRET=54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151 \
+  -e KITSU_USERNAME=<username> \
+  -e KITSU_PASSWORD=<password> \
+  -e PLEX_TOKEN=<token> \
+  -e PLEX_LOG="/logs/Plex Media Server.log" \
+  -e PLEX_LIBRARIES=Anime \
+  -v "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs" \
+  matthewdias/kitsu-plex-scrobbler
+```
