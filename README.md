@@ -2,6 +2,7 @@
 
 - Watches Plex log file for activity and submits to Kitsu
 - Supports thetvdb and [hama](https://github.com/ZeroQI/Hama.bundle) agents
+- Will only work for shows that have a TheTVDB or AniDB mapping on Kitsu
 - Must run on same machine as Plex Media Server
 - Requires [Node.js](http://nodejs.org/)
 
