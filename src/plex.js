@@ -12,6 +12,7 @@ module.exports = {
       })
     } catch (e) {
       console.log('error fetching metadata:', e)
+      return
     }
 
     let { librarySectionTitle, type, guid, parentTitle, grandparentTitle } =
