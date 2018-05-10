@@ -4,7 +4,9 @@
   "description": "Update your Kitsu library from Plex",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "start-docker": "run-p start inotify",
+    "inotify": "./node_modules/inotify-proxy/bin/inotify-proxy"
   },
   "repository": {
     "type": "git",
