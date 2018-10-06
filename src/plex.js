@@ -6,7 +6,7 @@ module.exports = {
     try {
       response = await request({
         url: host + '/library/metadata/' + id,
-        qs: { 'X-Plex-Token': token },
+        qs: { 'X-Plex-Token': token ? token : null },
         headers: { Accept: 'application/json' },
         json: true
       })

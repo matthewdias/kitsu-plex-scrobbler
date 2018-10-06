@@ -15,7 +15,7 @@
   - `KITSU_USERNAME`: your Kitsu username
   - `KITSU_PASSWORD`: your Kitsu password
   - `PLEX_HOST`: Plex Media Server host (eg. `http://localhost:32400`)
-  - `PLEX_TOKEN`: your Plex token [(instructions)](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/)
+  - `PLEX_TOKEN`: your Plex token [(instructions)](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (Only required for claimed servers)
   - `PLEX_LOG`: location of your Plex Media Server log file [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/)
     - plex defaults:
       - macOS: `"~/Library/Logs/Plex Media Server/Plex Media Server.log"`
