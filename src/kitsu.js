@@ -3,6 +3,8 @@ const OAuth2 = require('client-oauth2')
 
 module.exports = class Kitsu {
   constructor ({ KITSU_CLIENT, KITSU_SECRET, KITSU_USERNAME, KITSU_PASSWORD }) {
+    this.authorized = false
+
     new OAuth2({
       clientId: KITSU_CLIENT,
       clientSecret: KITSU_SECRET,
@@ -15,47 +17,56 @@ module.exports = class Kitsu {
         }
       })
       this.api.self({ fields: { users: 'slug' } }).then((user) => {
-        console.log('signed into kitsu as', user.slug)
         this.user = user
+        this.authorized = true
+        console.log('signed into kitsu as', user.slug)
       }).catch(e => console.log('error loading user:', e))
     })
     .catch(e => console.log('error signing in to kitsu:', e))
   }
 
-  async scrobble ({ anidb, tvdb, series, season, episode }) {
+  async scrobble ({ kitsu, anidb, tvdb, series, season, episode }) {
     if (this.api) {
       console.log('scrobbling:', series, season, episode)
-      let mapping
-
-      if (anidb) {
-        mapping = await this.findMapping('anidb', anidb)
-      }
-
-      if (tvdb && !mapping) {
-        let tvdbSeason = `${tvdb}/${season}`
-        mapping = await this.findMapping('thetvdb', tvdbSeason)
-        if (!mapping) {
-          mapping = await this.findMapping('thetvdb', tvdb)
-        }
-        if (!mapping) {
-          mapping = await this.findMapping('thetvdb/series', tvdbSeason)
-        }
-        if (!mapping) {
-          mapping = await this.findMapping('thetvdb/series', tvdb)
-        }
-      }
 
       let anime
-      if (mapping) {
-        anime = mapping.item
+      if (kitsu) {
+        anime = await this.getAnime(kitsu)
       } else {
-        console.log('no mapping found');
+        let mapping
+
+        if (anidb) {
+          mapping = await this.findMapping('anidb', anidb)
+        }
+
+        if (tvdb && !mapping) {
+          let tvdbSeason = `${tvdb}/${season}`
+          mapping = await this.findMapping('thetvdb', tvdbSeason)
+          if (!mapping) {
+            mapping = await this.findMapping('thetvdb', tvdb)
+          }
+          if (!mapping) {
+            mapping = await this.findMapping('thetvdb/series', tvdbSeason)
+          }
+          if (!mapping) {
+            mapping = await this.findMapping('thetvdb/series', tvdb)
+          }
+        }
+
+        if (mapping) {
+          anime = mapping.item
+        } else {
+          console.log('no mapping found');
+        }
+      }
+
+      if (!anime) {
         return
       }
 
       let entry = await this.findEntry(anime.id)
       if (entry) {
-        if (entry.progress > episode) {
+        if (entry.progress >= episode) {
           console.log('progress is farther than episode, ignoring')
           return
         }
@@ -81,6 +92,16 @@ module.exports = class Kitsu {
           console.log('error creating library entry:', e)
         }
       }
+    }
+  }
+
+  async getAnime (id) {
+    try {
+      let { data: anime } = await this.api.get('anime/' + id)
+      console.log('found anime:', anime.canonicalTitle)
+      return anime
+    } catch (e) {
+      console.log('error getting anime for id', id, e)
     }
   }
 

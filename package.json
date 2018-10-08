@@ -21,8 +21,8 @@
   "dependencies": {
     "client-oauth2": "^4.2.0",
     "kitsu": "^5.1.0",
-    "request": "^2.85.0",
-    "request-promise-native": "^1.0.5",
+    "plex-api": "^5.2.1",
+    "plex-api-pinauth": "^0.1.0",
     "tail": "^1.2.3",
     "untildify": "^3.0.2"
   }
