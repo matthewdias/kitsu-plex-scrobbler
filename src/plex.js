@@ -68,16 +68,16 @@ module.exports = class Plex {
     try {
       response = await this.client.query('/library/metadata/' + id)
 
-      let { librarySectionTitle, type, guid, parentTitle, grandparentTitle } =
+      let { librarySectionTitle, guid, title, parentTitle, grandparentTitle } =
         response.MediaContainer.Metadata[0]
 
-      if (type == 'episode' && libraries.includes(librarySectionTitle)) {
+      if (libraries.includes(librarySectionTitle)) {
         console.log('guid ', guid)
+        let kitsu, anidb, tvdb, media
         let matches = /.*\.(\w+):\/\/(.+)\/(\d+)\/(\d+)*/g.exec(guid)
         if (matches) {
-          let [match, agent, id, season, episode] = matches
+          let [_, agent, id, season, episode] = matches
 
-          let kitsu, anidb, tvdb
           if (agent == 'kitsu') {
             kitsu = id
           } else if (agent == 'hama') {
@@ -93,14 +93,32 @@ module.exports = class Plex {
             return
           }
 
-          let series = grandparentTitle || parentTitle
+          media = grandparentTitle || parentTitle
 
-          return { kitsu, anidb, tvdb, series, season, episode }
+          return { kitsu, anidb, tvdb, media, season, episode }
         } else {
-          console.log('invalid metadata')
+          matches = /.*\.(\w+):\/\/([^?]+)/g.exec(guid)
+          if (matches) {
+            let [_, agent, id] = matches
+
+            if (agent == 'kitsu') {
+              kitsu = id
+            } else if (agent == 'hama' && id.includes('anidb')) {
+              anidb = id.replace('anidb-', '')
+            } else {
+              console.log('agent not supported')
+              return
+            }
+
+            media = title
+
+            return { kitsu, anidb, media }
+          } else {
+            console.log('invalid metadata')
+          }
         }
       } else {
-        console.log('not an episode or not in selected libraries')
+        console.log('not in selected libraries')
       }
     } catch (e) {
       console.log('error fetching metadata:', e)

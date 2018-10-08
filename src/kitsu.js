@@ -25,72 +25,72 @@ module.exports = class Kitsu {
     .catch(e => console.log('error signing in to kitsu:', e))
   }
 
-  async scrobble ({ kitsu, anidb, tvdb, series, season, episode }) {
-    if (this.api) {
-      console.log('scrobbling:', series, season, episode)
+  async scrobble ({ kitsu, anidb, tvdb, media, season, episode }) {
+    console.log('scrobbling:', media, episode ? `${season} ${episode}` : '')
 
-      let anime
-      if (kitsu) {
-        anime = await this.getAnime(kitsu)
-      } else {
-        let mapping
+    let anime
+    if (kitsu) {
+      anime = await this.getAnime(kitsu)
+    } else {
+      let mapping
 
-        if (anidb) {
-          mapping = await this.findMapping('anidb', anidb)
+      if (anidb) {
+        mapping = await this.findMapping('anidb', anidb)
+      }
+
+      if (tvdb && !mapping) {
+        let tvdbSeason = `${tvdb}/${season}`
+        mapping = await this.findMapping('thetvdb', tvdbSeason)
+        if (!mapping) {
+          mapping = await this.findMapping('thetvdb', tvdb)
         }
-
-        if (tvdb && !mapping) {
-          let tvdbSeason = `${tvdb}/${season}`
-          mapping = await this.findMapping('thetvdb', tvdbSeason)
-          if (!mapping) {
-            mapping = await this.findMapping('thetvdb', tvdb)
-          }
-          if (!mapping) {
-            mapping = await this.findMapping('thetvdb/series', tvdbSeason)
-          }
-          if (!mapping) {
-            mapping = await this.findMapping('thetvdb/series', tvdb)
-          }
+        if (!mapping) {
+          mapping = await this.findMapping('thetvdb/series', tvdbSeason)
         }
-
-        if (mapping) {
-          anime = mapping.item
-        } else {
-          console.log('no mapping found');
+        if (!mapping) {
+          mapping = await this.findMapping('thetvdb/series', tvdb)
         }
       }
 
-      if (!anime) {
+      if (mapping) {
+        anime = mapping.item
+      } else {
+        console.log('no mapping found');
+      }
+    }
+
+    if (!anime) {
+      return
+    }
+
+    episode = episode || 1
+
+    let entry = await this.findEntry(anime.id)
+    if (entry) {
+      if (entry.progress >= episode) {
+        console.log('progress is farther than episode, ignoring')
         return
       }
-
-      let entry = await this.findEntry(anime.id)
-      if (entry) {
-        if (entry.progress >= episode) {
-          console.log('progress is farther than episode, ignoring')
-          return
-        }
-        try {
-          await this.api.patch('libraryEntries', {
-            id: entry.id,
-            progress: episode
-          })
-          console.log('updated library entry to', episode)
-        } catch (e) {
-          console.log('error updating library entry:', e)
-        }
-      } else {
-        try {
-          await this.api.post('libraryEntries', {
-            progress: episode,
-            status: episode == anime.episodeCount ? 'completed' : 'current',
-            anime: { type: 'anime', id: anime.id },
-            user: { type: 'users', id: this.user.id }
-          })
-          console.log('created library entry at progress', episode)
-        } catch (e) {
-          console.log('error creating library entry:', e)
-        }
+      try {
+        await this.api.patch('libraryEntries', {
+          id: entry.id,
+          progress: episode
+        })
+        console.log('updated library entry to', episode)
+      } catch (e) {
+        console.log('error updating library entry:', e)
+      }
+    } else {
+      try {
+        await this.api.post('libraryEntries', {
+          progress: episode,
+          status: episode == anime.episodeCount ? 'completed' : 'current',
+          anime: { type: 'anime', id: anime.id },
+          user: { type: 'users', id: this.user.id }
+        })
+        console.log('created library entry at progress', episode)
+      } catch (e) {
+        console.log('error creating library entry:', e)
       }
     }
   }
