@@ -72,7 +72,7 @@ export default class KitsuAccount extends React.Component {
           className="inset"
           ref={this.username}
           type="text"
-          placeholder="Kitsu Username" />
+          placeholder="Kitsu Email or Profile URL ID" />
         <input
           className="inset"
           ref={this.password}
