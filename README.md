@@ -12,15 +12,13 @@
 1. Install [PostgreSQL](https://www.postgresql.org/)
 2. Create a database
 3. Install [current Node.js](https://nodejs.org)
-4. run `npm install`
-5. Set [env vars](#Env-vars)
-6. run `npm start`
+4. Run `npm install`
+5. Set [env vars](#Env-vars) and run `npm start`
 
 ##### Running with Docker
 
 1. Install [Docker](https://store.docker.com/search?offering=community&type=edition)
-2. Set [env vars](#Env-vars)
-3. Run `docker-compose up`
+2. Set [env vars](#Env-vars) and run `docker-compose up`
 
 ##### Env vars
 
