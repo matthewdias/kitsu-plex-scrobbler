@@ -27,7 +27,7 @@
 | Var | Default Value | Description | Node | Docker |
 |---|---|---|---|---|
 | `PLEX_HOST` | `http://localhost:32400` | Plex Media Server host | Optional | Optional <br /> (Docker for Mac/Windows users should set this to `http://host.docker.internal:<plex port>`) |
-| `PLEX_LOGS` | none | Location of your Plex Media Server log files [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/) <br /> Common locations: <ul> <li>macOS: `"~/Library/Logs/Plex Media Server"`</li> <li>Linux: `"/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs"`</li> <li>Windows: `"~\\AppData\\Local\\Plex Media Server\\Logs"`</li> <li>FreeBSD: `"/usr/local/plexdata/Plex Media Server/Logs"`</li> <ul> | Required | Ignored |
+| `PLEX_LOGS` | none | Location of your Plex Media Server log files [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/) <br /> Common locations: <ul> <li>macOS: `"~/Library/Logs/Plex Media Server"`</li> <li>Linux: `"/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs"`</li> <li>Windows: `"~\\AppData\\Local\\Plex Media Server\\Logs"`</li> <li>FreeBSD: `"/usr/local/plexdata/Plex Media Server/Logs"`</li> <ul> | Required | Required |
 | `PORT` | `8929` | Port for web server to listen on | Optional | Optional |
 | `DATABASE_URL` | `postgres://postgres@localhost:5432/kitsu-plex-scrobbler` | Connection URL for your PostgreSQL database | Optional | Ignored |
 | `POSTGRES_PORT` | `5434` | Port for included PostgreSQL database to listen on | Ignored | Optional |
