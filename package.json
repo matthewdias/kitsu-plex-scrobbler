@@ -1,12 +1,16 @@
 {
   "name": "kitsu-plex-scrobbler",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Update your Kitsu library from Plex",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "start-docker": "run-p start inotify",
-    "inotify": "cd /logs && /app/node_modules/inotify-proxy/bin/inotify-proxy ./PMS\\ Plugin\\ Logs > /dev/null"
+    "inotify": "cd /logs && /app/node_modules/inotify-proxy/bin/inotify-proxy ./PMS\\ Plugin\\ Logs > /dev/null",
+    "start-docker": "NODE_ENV=production knex migrate:latest && run-p start inotify",
+    "dev": "run-p server client",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+    "server": "nodemon src/server/index.js",
+    "build": "webpack --mode production --display errors-only",
+    "start": "npm run build && NODE_ENV=production node src/server/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,11 +23,41 @@
   },
   "homepage": "https://github.com/matthewdias/kitsu-plex-scrobbler#readme",
   "dependencies": {
+    "@rgrove/parse-xml": "^1.1.1",
     "client-oauth2": "^4.2.0",
+    "express": "^4.16.3",
+    "express-history-api-fallback": "^2.2.1",
+    "isomorphic-unfetch": "^3.0.0",
     "kitsu": "^5.1.0",
+    "knex": "^0.15.2",
+    "objection": "^1.3.0",
+    "pg": "^7.4.3",
     "plex-api": "^5.2.1",
-    "plex-api-pinauth": "^0.1.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-router-dom": "^4.3.1",
+    "react-toastify": "^4.4.0",
     "tail": "^1.2.3",
     "untildify": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.1.2",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "nodemon": "^1.18.4",
+    "npm-run-all": "^4.1.3",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.21.0",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9"
   }
 }

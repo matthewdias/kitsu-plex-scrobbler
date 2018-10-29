@@ -1,42 +1,55 @@
 ### Features/Constraints
 
 - Watches Plex log file for activity and submits to Kitsu
-- Supports thetvdb and [hama](https://github.com/ZeroQI/Hama.bundle) agents. (Use hama for best results)
-- Will only work for shows that have a TheTVDB or AniDB mapping on Kitsu
+- Supports [kitsu](https://github.com/matthewdias/Kitsu.bundle), thetvdb and [hama](https://github.com/ZeroQI/Hama.bundle) agents. (Use kitsu for best results)
+- thetvdb and hama agents require tvdb/anidb mappings for the media to exist in Kitsu's database
 - Must run on same machine as Plex Media Server
-- Requires [Node.js](http://nodejs.org/)
 
-### Running
+### Run it
 
-1. run `npm install`
-2. Set env vars
-  - `KITSU_CLIENT`: dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd
-  - `KITSU_SECRET`: 54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151
-  - `KITSU_USERNAME`: your Kitsu username
-  - `KITSU_PASSWORD`: your Kitsu password
-  - `PLEX_HOST`: Plex Media Server host (eg. `http://localhost:32400`)
-  - `PLEX_TOKEN`: your Plex token [(instructions)](https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/) (Only required for claimed servers)
-  - `PLEX_LOG`: location of your Plex Media Server log file [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/)
-    - plex defaults:
-      - macOS: `"~/Library/Logs/Plex Media Server/Plex Media Server.log"`
-      - Linux: `"/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs/Plex Media Server.log"`
-      - Windows: `"~\\AppData\\Local\\Plex Media Server\\Logs\\Plex Media Server.log"`
-      - FreeBSD: `"/usr/local/plexdata/Plex Media Server/Logs/Plex Media Server.log"`
-  - `PLEX_LIBRARIES`: comma-delimited list of library names to watch (e.g. `"Anime, Anime2"`)
-2. run `npm start`
+##### Running with Node.js
 
-### Running with Docker
+1. Install [PostgreSQL](https://www.postgresql.org/)
+2. Create a database
+3. Install [current Node.js](https://nodejs.org)
+4. run `npm install`
+5. Set [env vars](#Env-vars)
+6. run `npm start`
 
-```
-docker run --name kitsu-plex-scrobbler \
-  -e KITSU_CLIENT=dd031b32d2f56c990b1425efe6c42ad847e7fe3ab46bf1299f05ecd856bdb7dd \
-  -e KITSU_SECRET=54d7307928f63414defd96399fc31ba847961ceaecef3a5fd93144e960c0e151 \
-  -e KITSU_USERNAME=<username> \
-  -e KITSU_PASSWORD=<password> \
-  -e PLEX_HOST=http://localhost:32400
-  -e PLEX_TOKEN=<token> \
-  -e PLEX_LOG="/logs/Plex Media Server.log" \
-  -e PLEX_LIBRARIES=Anime \
-  -v "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs:/logs" \
-  matthewdias/kitsu-plex-scrobbler
-```
+##### Running with Docker
+
+1. Install [Docker](https://store.docker.com/search?offering=community&type=edition)
+2. Set [env vars](#Env-vars)
+3. Run `docker-compose up`
+
+##### Env vars
+
+| Var | Default Value | Description | Node | Docker |
+|---|---|---|---|---|
+| `PLEX_HOST` | `http://localhost:32400` | Plex Media Server host | Optional | Optional <br /> (Docker for Mac/Windows users should set this to `http://host.docker.internal:<plex port>`) |
+| `PLEX_LOGS` | none | Location of your Plex Media Server log files [(instructions)](https://support.plex.tv/articles/200250417-plex-media-server-log-files/) <br /> Common locations: <ul> <li>macOS: `"~/Library/Logs/Plex Media Server"`</li> <li>Linux: `"/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Logs"`</li> <li>Windows: `"~\\AppData\\Local\\Plex Media Server\\Logs"`</li> <li>FreeBSD: `"/usr/local/plexdata/Plex Media Server/Logs"`</li> <ul> | Required | Ignored |
+| `PORT` | `8929` | Port for web server to listen on | Optional | Optional |
+| `DATABASE_URL` | `postgres://postgres@localhost:5432/kitsu-plex-scrobbler` | Connection URL for your PostgreSQL database | Optional | Ignored |
+| `POSTGRES_PORT` | `5434` | Port for included PostgreSQL database to listen on | Ignored | Optional |
+
+### Use it
+
+- After starting the scrobbler, navigate to `http://localhost:<PORT>` in your browser
+- Login with your Plex account credentials. **Important:** The owner of the Plex server must be the first to login
+- Configure settings (These will only apply when watching via your Plex account)
+  - Choose which libraries you want to scrobble for your Plex account
+  - Connect your Kitsu account
+- Watch something on Plex and your Kitsu library will be updated
+
+### Screenshots
+
+<div style="display: flex; justify-content: space-between;">
+  <img src="https://i.imgur.com/KQrzFIx.png" width=500 height=427 />
+  <img src="https://i.imgur.com/cdAPU3w.png" width=500 height=427 />
+</div>
+
+### Acknowledgements
+
+Thanks to
+- [@xiprox](https://github.com/xiprox) for mocking up the design
+- [Arcanemagus/plex-api](https://github.com/Arcanemagus/plex-api/wiki) for guiding me through the dark

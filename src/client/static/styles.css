@@ -1,0 +1,276 @@
+body {
+  background: #332532;
+  margin: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  color: #FFFFFF;
+  background: #402F3F;
+  border-radius: 10px;
+  box-shadow: 0px 10px 70px 0px #2d212d;
+  width: 400px;
+}
+
+.inset {
+  background-color: #3a2939;
+  border-radius: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px 10px 20px;
+}
+
+.large {
+  height: 90px;
+  padding: 0 20px 0 20px;
+}
+
+input {
+  display: block;
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+  border: none;
+  background: #332532;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, .4);
+}
+
+.submit {
+  width: inherit;
+  padding: 10px;
+  padding-left: 18px;
+  padding-right: 18px;
+  border-radius: 99px;
+  border: 2px solid rgba(100, 75, 100, 1);
+  background: transparent;
+  color: #FFFFFF;
+  font: inherit;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.submit:hover {
+  background: rgba(100, 75, 100, 1);
+  box-shadow: 0px 2px 10px 1px #3a2939;
+}
+
+.loading {
+  display: inline-block;
+  position: relative;
+  cursor: not-allowed;
+}
+
+.loading-text {
+  visibility: hidden;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.important {
+  margin-bottom: 40px;
+}
+
+.icon {
+  border-radius: 5px;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.cover {
+  position: absolute;
+  right: 100px;
+  object-fit: cover;
+  filter: hue-rotate(275deg) brightness(.1) opacity(.2);
+}
+
+.avatar-container {
+  position: relative;
+  margin: auto;
+  background: #3a2939;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 50px;
+}
+
+.contained {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px 0px 0px -40px;
+  width: 80px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+}
+
+.footer-plex {
+  width: 30px;
+  height: 30px;
+  bottom: 20px;
+  margin-right: -10px;
+}
+
+.footer-kitsu {
+  width: 30px;
+  height: 30px;
+  bottom: 20px;
+}
+
+.footer-text {
+  padding-left: 7px;
+}
+
+.section {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.check-container {
+  position: relative;
+}
+
+.checkbox-hide {
+  display: none;
+}
+
+.checkbox {
+  width: 13px;
+  height: 13px;
+  margin: inherit;
+  margin-right: 10px;
+  border: 2px solid #FFFFFF;
+  border-radius: 3px;
+}
+
+.check {
+  display: inline-block;
+  position: absolute;
+  margin: 0 auto;
+  left: 6px;
+  top: 3px;
+}
+
+.check:after {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 7px;
+  border: solid;
+  border-width: 0 2px 2px 0;
+  transform: rotate(40deg);
+}
+
+.section-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.account-name {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.logout {
+  width: 20px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.Toastify__toast-container--top-right {
+  width: inherit;
+}
+
+.notif {
+  color: #402F3F;
+  text-align: center;
+  min-height: 0;
+  padding: 0;
+}
+
+.notif-body {
+  padding: 15px;
+}

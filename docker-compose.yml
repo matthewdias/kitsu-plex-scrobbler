@@ -1,0 +1,22 @@
+version: '3'
+services:
+  scrobbler:
+    build: .
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      - PORT=${PORT}
+      - PLEX_HOST=${PLEX_HOST}
+      - PLEX_LOGS=/logs
+      - DATABASE_URL=postgres://postgres@postgres:${POSTGRES_PORT}/postgres
+    volumes:
+      - ${PLEX_LOGS}:/logs
+    ports:
+      - ${PORT}:${PORT}
+  postgres:
+    image: postgres
+    restart: always
+    command: -p ${POSTGRES_PORT}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
