@@ -31,6 +31,11 @@
 | `PORT` | `8929` | Port for web server to listen on | Optional | Optional |
 | `DATABASE_URL` | `postgres://postgres@localhost:5432/kitsu-plex-scrobbler` | Connection URL for your PostgreSQL database | Optional | Ignored |
 | `POSTGRES_PORT` | `5434` | Port for included PostgreSQL database to listen on | Ignored | Optional |
+  
+##### Setting env vars for a command
+
+- Unix/Bash-like Shell: `VAR1="value 1" docker-compose up`
+- Windows PowerShell: `$env:VAR1 = "value 1"; docker-compose up`
 
 ### Use it
 
