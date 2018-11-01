@@ -4,6 +4,7 @@ import { alertResponse } from '../util'
 import Submit from '../components/Submit'
 import KitsuIcon from '../static/kitsu.png'
 import LogoutIcon from '../static/logout.png'
+import NoFace from '../static/noface.png'
 
 export default class KitsuAccount extends React.Component {
   state = { user: this.props.user, loading: false }
@@ -60,7 +61,9 @@ export default class KitsuAccount extends React.Component {
         <h4>Kitsu Account</h4>
         <div className="row inset large">
           <img src={KitsuIcon} className="cover" width="140" height="90"/>
-          <img src={this.state.user.avatar.small} className="avatar" />
+          <img
+            src={this.state.user.avatar ? this.state.user.avatar.small : NoFace}
+            className="avatar" />
           <span className="account-name">{this.state.user.name}</span>
           <img src={LogoutIcon} title="Log out" onClick={this.logout} className="logout"/>
         </div>
