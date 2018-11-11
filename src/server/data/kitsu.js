@@ -4,7 +4,7 @@ const OAuth2 = require('client-oauth2')
 const User = require('../models/User')
 
 const kitsu = new Kitsu({
-  headers: { 'User-Agent': 'kitsu-plex-scrobbler/1.0.0' }
+  headers: { 'User-Agent': 'kitsu-plex-scrobbler/1.0.1' }
 })
 
 const auth = new OAuth2({ accessTokenUri: 'https://kitsu.io/api/oauth/token' })

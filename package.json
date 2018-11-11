@@ -1,6 +1,6 @@
 {
   "name": "kitsu-plex-scrobbler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Update your Kitsu library from Plex",
   "main": "src/index.js",
   "scripts": {
