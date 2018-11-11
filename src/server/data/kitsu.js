@@ -14,6 +14,10 @@ const login = async (username, password) => {
 }
 
 const refresh = async (user) => {
+  if (user.kitsuExpires > new Date(Date.now())) {
+    return user
+  }
+
   let token = auth.createToken(user.kitsuToken, user.kitsuRefresh, 'bearer')
   let refresh = await token.refresh()
   let {
@@ -31,24 +35,18 @@ const refresh = async (user) => {
   return refreshed
 }
 
-const withAuth = async (user, action) => {
-  if (user.kitsuExpires < new Date(Date.now)) {
-    user = await refresh(user)
-  }
-
-  kitsu.headers['Authorization'] = 'Bearer ' + user.kitsuToken
-  try {
-    return await action()
-  } finally {
-    delete kitsu.headers['Authorization']
-  }
+const getUser = async (user) => {
+  user = await refresh(user)
+  return await kitsu.self({
+    fields: { users: 'id,avatar,name' }
+  }, {
+    Authorization: 'Bearer ' + user.kitsuToken
+  })
 }
 
-const getUser = user => withAuth(user, async () => {
-  return await kitsu.self({ fields: { users: 'id,avatar,name' } })
-})
+const scrobble = async (user, kitsuUser, metadata) => {
+  user = await refresh(user)
 
-const scrobble = (user, kitsuUser, metadata) => withAuth(user, async () => {
   let {
     kitsu: kitsuId, anidb, tvdb,
     media, season, episode
@@ -104,6 +102,8 @@ const scrobble = (user, kitsuUser, metadata) => withAuth(user, async () => {
       await kitsu.patch('libraryEntries', {
         id: entry.id,
         progress: episode
+      }, {
+        Authorization: 'Bearer ' + user.kitsuToken
       })
       console.log('updated library entry to', episode)
     } catch (e) {
@@ -116,13 +116,15 @@ const scrobble = (user, kitsuUser, metadata) => withAuth(user, async () => {
         status: episode == anime.episodeCount ? 'completed' : 'current',
         anime: { type: 'anime', id: anime.id },
         user: { type: 'users', id: userId }
+      }, {
+        Authorization: 'Bearer ' + user.kitsuToken
       })
       console.log('created library entry at progress', episode)
     } catch (e) {
       console.log('error creating library entry:', e)
     }
   }
-})
+}
 
 const getAnime = async (id) => {
   try {
